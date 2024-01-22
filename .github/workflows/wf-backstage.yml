@@ -30,6 +30,8 @@ jobs:
     # checkout the code from the repository
     - name: Checkout code
       uses: actions/checkout@v2
+    - name: Echo test
+      run: echo "Create"
     
 
 
