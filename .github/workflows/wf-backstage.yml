@@ -48,9 +48,13 @@ jobs:
       run: |
         git clone https://github.com/shanti91/test-gha3.git config-repo
 
+    - name: Show Contents of Config Repository
+      run: |
+        ls -R config-repo
+
     - name: Deploy from Config Repository
       run: |
-        kubectl apply -f config-repo/virtualmachine.yaml.yaml
+        kubectl apply -f config-repo/virtualmachine.yaml
     
     
 
