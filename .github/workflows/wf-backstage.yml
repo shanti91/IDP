@@ -1,32 +1,46 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI
-
-# Controls when the workflow will run
+name: Create VM
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  #push:
-  #  branches: [ "main" ]
-  #pull_request:
-  #  branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+    inputs:
+      name:
+        description: 'Name of the Instance' 
+        required: true 
+      cpus:
+        description: 'cpus for the instance'
+        required: true
+      memory:
+        description: 'Memory Gbs'
+        required: true
+      os_template:
+        description: 'os tmeplate for vm'
+        required: True
+      actions:
+        description: 'Action to perform (create/delete)'
+        required: true
+# Jobs to be executed in this workflow
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  # Job for create instance
+  create_vm:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    # Execute this step only if the action input is "create"
+    if: ${{ github.event.inputs.actions == 'create' }}
+  
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+    
+    # checkout the code from the repository
+    - name: Checkout code
+      uses: actions/checkout@v2
+    
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
 
-
+#------------------------------------------------------------------------------------
+  # Update VM
+  update_vm:
+    runs-on: ubuntu-latest
+    
+    # Execute this job only if the action input is "update"
+    if: ${{ github.event.inputs.action == 'update' }}
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
