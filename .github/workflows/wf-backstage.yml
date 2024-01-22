@@ -33,6 +33,25 @@ jobs:
       
     - name: Echo test
       run: echo ${{ github.event.inputs.name }}
+
+    - name: Set up kubectl for Minikube
+      run: |
+        sudo apt-get update -q
+        sudo apt-get install -y kubectl
+        kubectl version --client
+
+        minikube config set driver docker
+        minikube start
+        kubectl cluster-info
+
+    - name: Clone Config Repository
+      run: |
+        git clone https://github.com/shanti91/test-gha3.git config-repo
+
+    - name: Deploy from Config Repository
+      run: |
+        kubectl apply -f config-repo/virtualmachine.yaml.yaml
+    
     
 
 
